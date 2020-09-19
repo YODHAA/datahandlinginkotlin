@@ -13,10 +13,13 @@ class MainViewModel(app:Application) : AndroidViewModel(app) {
     // class to have the data from json file
 
     init {
-        val text = FileHelper.getTextFromResources(app, R.raw.monster_data)
-        Log.i(LOG_TAG, text.toString() )
+      //  val text = FileHelper.getTextFromResources(app, R.raw.monster_data)
+        val text = FileHelper.getTextFromAssets(app, "monster_data.json")
+        Log.i(LOG_TAG, text )
     }
+
     
+
 
 
    // private var listType =
