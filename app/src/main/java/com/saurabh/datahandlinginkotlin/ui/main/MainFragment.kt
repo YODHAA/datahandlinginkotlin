@@ -10,6 +10,8 @@ import androidx.lifecycle.*
 import com.saurabh.datahandlinginkotlin.R
 import com.saurabh.datahandlinginkotlin.constants.LOG_TAG
 import com.saurabh.datahandlinginkotlin.data.Monster
+import kotlinx.android.synthetic.main.main_fragment.*
+import java.lang.StringBuilder
 
 class MainFragment : Fragment() {
 
@@ -24,14 +26,19 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val monster = Monster("Bob", "myfile", "a caption",
-            "a description", .19, 3)
-        Log.i(LOG_TAG, monster.toString())
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel.monsterData.observe(viewLifecycleOwner, Observer {
+            var monsterNames = StringBuilder()
+            for (monster in it) {
+                Log.i(LOG_TAG,"${monster.name} (\$${monster.price})")
+                monsterNames.append(monster.name).append("\"$${monster.price}").append("\n")
+            }
+            message.text = monsterNames
+        })
         return inflater.inflate(R.layout.main_fragment,container,false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
 }
